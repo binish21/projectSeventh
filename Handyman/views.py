@@ -109,8 +109,10 @@ class register(View):
 
 
 
-def login(request):
-    if request.method == 'POST':
+class login(View):
+    def get(self, request):
+        return render(request, 'Handyman/login.html', {})
+    def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -120,7 +122,7 @@ def login(request):
             if getPassword:
                 request.session['user'] = getUser.id
                 #print("Session id",request.session.get('user'))
-                return redirect('index')
+                return redirect('dashboard', id=getUser.id)
             else:
                 error_message = "Username and password dont match !"
         else:
@@ -131,7 +133,7 @@ def login(request):
             'values' : values
         }
         return render(request, 'Handyman/login.html', context)
-    return render(request, 'Handyman/login.html', {})
+    
 
 
 # class search(View):
@@ -243,3 +245,26 @@ def validateContractForm(contract):
     if checkContractByDate:
         error_message = "Sorry ! Handy is already booked on that day !"
     return error_message
+
+
+
+class dashboard(View):
+    def get(self, request, id):
+        profile = Handyman.objects.get(id=id)
+        user = User.objects.get(id=id)
+        contracts = Contract.objects.filter(handyman=profile)
+        context = {
+            'profile':profile,
+            'contracts' : contracts
+        }
+        return render(request, 'Handyman/dashboard.html', context)
+
+
+
+class contract(View):
+    def get(self, request, id):
+        contract = Contract.objects.get(id=id)
+        context = {
+            'contract':contract
+        }
+        return render(request, 'Handyman/contract.html', context)

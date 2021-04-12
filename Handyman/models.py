@@ -27,6 +27,7 @@ class User(models.Model):
     temporary_address = models.CharField(max_length=120, null=True)
     image = models.ImageField(upload_to = 'media/images')
     status = models.BooleanField(default=1)
+    
 
 
     def __str__(self):
@@ -63,6 +64,9 @@ class Contract(models.Model):
     date = models.DateField()
     estimated_hours = models.IntegerField()
     description = models.TextField()
+    total_hours = models.IntegerField()
+    isPaid = models.BooleanField(default=1)
+    status = models.BooleanField(default=1)
 
     def __str__(self):
         return self.customer_name
@@ -73,7 +77,6 @@ class Contract(models.Model):
             return Contract.objects.get(date=contract.date, handyman = contract.handyman)
         except:
             return False
- 
 
 
 

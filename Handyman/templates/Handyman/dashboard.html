@@ -1,0 +1,42 @@
+{% extends 'Handyman/base2.html' %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, {{ profile.user.name }} !</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    </div>
+    <h2 class="text-center" style="background-color:black; color:white;"> Previous work history</h2>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Customer Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">House Number</th>
+      <th scope="col">Date</th>
+      <th scope="col">Estimated Hours</th>
+      <th scope="col">Total Hours</th>
+      <th scope="col">Total Amount</th>
+      <th scope="col">Paid Status</th>
+      <th scope="col">Work Status</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+  {% for contract in contracts %}
+    <tr>
+      <td>{{ contract.customer_name }}</td>
+      <td>{{ contract.address }}</td>
+      <td>{{ contract.house }}</td>
+      <td>{{ contract.date }}</td>
+      <td>{{ contract.estimated_hours }}</td>
+      <td>{{ contract.total_hours }}</td>
+      <td>{% widthratio contract.total_hours 1 contract.handyman.rate %}</td>
+      <td>{{ contract.isPaid }}</td>
+      <td>{{ contract.status }} </td>
+      <td><a href="{% url 'contract' contract.id %}" class="btn btn-success">Manage</a></td>    
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}
+
