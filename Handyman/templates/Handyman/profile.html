@@ -1,0 +1,79 @@
+{% extends 'Handyman/base.html' %} {% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 border pt-4">
+            <h3 class="text-center">Profile</h3>
+            <hr>
+            <div class="row">
+                <div class="card ml-lg-4" style="width: 18rem;">
+                    <img src="{{ handyman.user.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><b>{{ handyman.user.name }}</b></h5>
+                        <p class="card-text"><b>{% if not handyman.description %}
+                <i>No description available.</i>
+                {% endif %}
+                {{ handyman.description }}</b></p>
+                    </div>
+                </div>
+                <div class="card ml-lg-4" style="width: 18rem;">
+                    <p><b>Profession : {{ handyman.profession }}</b></p>
+                    <p><b>City : {{ handyman.user.city }}</b></p>
+                    <p><b>Hourly Rate : $ {{ handyman.rate }}</b></p>
+                    <p><b>Permanent Address : {{ handyman.user.permanent_address }}</b></p>
+                    <p><b>Temporary Address : {{ handyman.user.temporary_address }}</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 border pt-4">
+            <h3 class="text-center">Hiring Details</h3>
+            <hr> {% if messages %} {% for message in messages %}
+            <b><div class="alert alert-danger" role="alert">
+                {{ message }}
+              </div>
+                {% endfor %}
+            </b> {% endif %}
+            <form action="{% url 'profile' handyman.id %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label><b>Your name</b></label>
+                            <input type="name" name="name" value="{{ values.name }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label><b>Address</b></label>
+                            <input type="text" name="address" value="{{ values.address }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label><b>House Number</b></label>
+                            <input type="text" name="house" value="{{ values.house }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label><b>Contact</b></label>
+                            <input type="text" name="contact" value="{{ values.contact }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label><b>Date</b></label>
+                            <input type="date" name="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label><b>Estimated Hours</b></label>
+                            <input type="number" name="estimated_hours" value="{{ values.estimated_hours }}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label><b>Service Description</b></label>
+                            <textarea name="description" cols="30" rows="10"></textarea>
+                            <small><b>Brief description of service.</b></small>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-block btn-success" value="Hire">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

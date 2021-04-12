@@ -1,0 +1,271 @@
+{% extends 'Handyman/base.html' %} {%block content %}
+<div>
+    <h2 class="text-center mt-lg-2">Search Home Services
+</div>
+
+</h2>
+
+<hr>
+<div class="container" style="margin-top:20px; margin-bottom: 60px;">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">City</label>
+                    <select class="form-control" name="city">
+                    {% for city in cities %}
+                <option value="{{ city.id }}">{{ city }}</option>
+                {% endfor %}
+            </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Profession</label>
+                    <select class="form-control" name="profession">
+					{% for profession in professions %}
+					<option value="{{ profession.id }}">
+						{{ profession }}
+					</option>
+					{% endfor %}
+				</select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class=" form-control btn btn-success" style="background-color: #55b555;">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if handymans %}
+    <h2 class="mt-lg-2">Seach results for city <i>{{handyman.user.city}}</i> and profession <i>{{ handyman.user.profession }}</i> </h2>
+    <div class="table-responsive mt-lg-2">
+        <table id="providers" class="table">
+            <thead style="background-color: red; color: white;">
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Profession</th>
+                    <th>Hourly Rate</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for handyman in handymans %}
+                <tr>
+                    <td> <img src="{{ handyman.user.image.url }}" style="height: 90px; width:150px;"></td>
+                    <td><b>{{ handyman.user.name}}</b></td>
+                    <td><b>{{ handyman.user.city }}</b></td>
+                    <td><b>{{ handyman.profession }}</b></td>
+                    <td><b>{{ handyman.rate }}</b></td>
+                    <td><a href="{% url 'profile' handyman.id %}"><button class="btn btn-outline-primary">Details</button></a></td>
+                </tr>
+                <hr> {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Page Heading -->
+{% if allHandymans %}
+<section class="page-heading">
+    <div class="container">
+
+        <div class="row text-center" style="background-color: teal; color: white; text-transform: uppercase;">
+            <div class="col-md-12">
+                <h1>Professionals List</h1>
+            </div>
+        </div>
+        <div class="row mt-lg-3 mb-lg-3">
+            {% for handyman in allHandymans %}
+            <div class="card ml-lg-3" style="width: 18rem;">
+                <img src={{handyman.user.image.url}} class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><b>{{ handyman.user.name }}</b></h5>
+                    <p class="card-text">
+                        {% if not handyman.description %}
+                        <i>No description available.</i> {% endif %} {{ handyman.description }}
+                    </p>
+                    <b>Prefession: {{ handyman.profession.name }}</b><br>
+                    <b>City: {{ handyman.user.city.name }}</b><br>
+                    <b>Rate : ${{ handyman.rate }} per hour</b>
+                    <a href="{% url 'profile' handyman.id %}" class="btn btn-outline-info">Go somewhere</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+<!-- Page Heading / End -->
+
+<!-- Page Content -->
+<section class="page-content">
+    <div class="container">
+
+        <div class="row text-center" style="background-color: teal; color: white; text-transform: uppercase;">
+            <div class="col-md-12">
+                <h1>Our services</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="icon-box">
+                    <div class="icon">
+                        <i class="fa fa-bug"></i>
+                    </div>
+                    <div class="icon-box-body">
+                        <h5>Plumbing</h5>
+                        <p>We have the qualified and most experienced list of plumbers around the city.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="icon-box">
+                    <div class="icon">
+                        <i class="fa fa-cog"></i>
+                    </div>
+                    <div class="icon-box-body">
+                        <h5>Small Repairs</h5>
+                        <p>All kinds of repair works like repairing small electrical equipments like tv, remote, grinders fan etc falls unders this catogery </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="icon-box">
+                    <div class="icon">
+                        <i class="fa fa-recycle"></i>
+                    </div>
+                    <div class="icon-box-body">
+                        <h5>Heavy Repairs</h5>
+                        <p>Repairing big electricial equipments like AC, Refrigators , Washing machines , generators ,microovens etc falls under this ctegory .</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="icon-box">
+                <div class="icon">
+                    <i class="fa fa-suitcase"></i>
+                </div>
+                <div class="icon-box-body">
+                    <h5>Tials Fixtures</h5>
+                    <p>We are professional tile installers who can install and repair tile in many areas of your home.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="icon-box">
+                <div class="icon">
+                    <i class="fa fa-lightbulb-o"></i>
+                </div>
+                <div class="icon-box-body">
+                    <h5>Home Decor</h5>
+                    <p>Professional decor dedicate their careers exclusively to the art and science of decoring .</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="icon-box">
+                <div class="icon">
+                    <i class="fa fa-cube"></i>
+                </div>
+                <div class="icon-box-body">
+                    <h5>Plumbers</h5>
+                    <p>Hiring our professional handyman services ensures proper plumbing and installation of pipes and fittings.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <a class="btn btn-default btn-block" href="page-services.html">Explore Our Services</a>
+        </div>
+
+    </div>
+    <div class="spacer"></div>
+    <!-- Services / End -->
+
+    <!-- Testimonials -->
+    <div class="title-bordered">
+        <h2>Testimonials <small>what clients say</small></h2>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="testimonial">
+                <blockquote>
+                    <p>If you're faced with home improvement or repair tasks, and don't have the time, I would give Handyman my highest recommendation.</p>
+                </blockquote>
+                <div class="bq-author">
+                    <figure class="author-img">
+                        <img src="images/samples/user1-sm.jpg" alt="">
+                    </figure>
+                    <h6>Rajesh Gautam</h6>
+                    <span class="bq-author-info">Business Man</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="testimonial">
+                <blockquote>
+                    <p>They worked hard and offered to help me set up my furniture once it was in my new home.</p>
+                    <p>Very pleased!</p>
+                </blockquote>
+                <div class="bq-author">
+                    <figure class="author-img">
+                        <img src="images/samples/user3-sm.jpg" alt="">
+                    </figure>
+                    <h6>Mamta Bhattarai</h6>
+                    <span class="bq-author-info">House Wife</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="testimonial">
+                <blockquote>
+                    <p>The movers were friendly, helpful, polite, professional and efficient. They did a great job! I would highly recommend them! Thank you!</p>
+                </blockquote>
+                <div class="bq-author">
+                    <figure class="author-img">
+                        <img src="images/samples/user2-sm.jpg" alt="">
+                    </figure>
+                    <h6>Sajan Bista</h6>
+                    <span class="bq-author-info">Teacher</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="testimonial">
+                <blockquote>
+                    <p>I am very happy with their work. they did a great job. They were very helpful with other aspects of the work i had in mind. They were very clean, and very quick.</p>
+                </blockquote>
+                <div class="bq-author">
+                    <figure class="author-img">
+                        <img src="images/samples/user4-sm.jpg" alt="">
+                    </figure>
+                    <h6>Ramesh Stha</h6>
+                    <span class="bq-author-info">Prof</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonials / End -->
+    </div>
+
+
+
+    </div>
+
+</section>
+
+</div>
+<!-- Main / End -->
+</div>
+
+{% endblock %}
