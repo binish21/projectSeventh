@@ -3,6 +3,8 @@ from django.views import View
 from .models import City, Profession, User, Handyman,  Contract
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
 class index(View):
     def get(self, request):
@@ -190,6 +192,15 @@ class profile(View):
 
         if not error_message:
             contract.save()
+
+            #Setting up Email body
+
+            subject = "Service contract recieved"
+            message = "Hey "+ handyman_to_hire.user.name + ", you recieved a service request from "+ name + " at " + date +" ."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [handyman_to_hire.user.email,]
+            send_mail(subject, message, email_from, recipient_list)
+
             success_message = "Congrats "+ handyman_to_hire.user.name+ " has been booked for "+ contract.date +"."
             context ={
                 'success_message': success_message

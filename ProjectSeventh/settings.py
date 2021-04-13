@@ -123,3 +123,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+#To send email notiifcations
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "gyanutest@gmail.com"
+EMAIL_HOST_PASSWORD = "Iamnumber4"
+EMAIL_USE_TLS = True

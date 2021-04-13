@@ -64,7 +64,7 @@ class Contract(models.Model):
     date = models.DateField()
     estimated_hours = models.IntegerField()
     description = models.TextField()
-    total_hours = models.IntegerField()
+    total_hours = models.IntegerField(null=True)
     isPaid = models.BooleanField(default=1)
     status = models.BooleanField(default=1)
 
